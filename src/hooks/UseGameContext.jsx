@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useState, useEffect } from "react";
+import React, { createContext, useCallback, useState, useEffect } from "react";
 import * as Constants from "../utils/Constants";
 
 export const GameContext = createContext(null);
@@ -50,19 +50,51 @@ export default function UseGameContext({ children }) {
     fetchGameData();
   }, []);
 
-  function tryMatch(cardIndex) {
-    if (pair.length < 1) {
-      pair.push(cardData[cardIndex]);
-    }
-    const updatedDeck = cardData.map((card, index) => {
-      if (index === cardIndex) {
-        return { ...card, reveal: true };
-      }
-      return card;
-    });
+  const tryMatch = useCallback((cardIndex) => {
+    setCardData((prevCardData) =>
+      prevCardData.map((card, index) =>
+        index === cardIndex ? { ...card, reveal: true } : card
+      )
+    );
 
-    setCardData(updatedDeck);
-  }
+    setPair((prevPair) => {
+      const newPair = [...prevPair, cardIndex];
+
+      if (newPair.length === 2) {
+        const [firstIndex, secondIndex] = newPair;
+
+        setCardData((prevCardData) => {
+          const firstCard = prevCardData[firstIndex];
+          const secondCard = prevCardData[secondIndex];
+
+          if (firstCard.name === secondCard.name) {
+            return prevCardData.map((card, index) => {
+              if (index === firstIndex || index === secondIndex) {
+                return { ...card, matched: true };
+              }
+              return card;
+            });
+          } else {
+            setTimeout(() => {
+              setCardData((prev) =>
+                prev.map((card, index) => {
+                  if (index === firstIndex || index === secondIndex) {
+                    return { ...card, reveal: false };
+                  }
+                  return card;
+                })
+              );
+            }, 1000);
+            return prevCardData;
+          }
+        });
+
+        return [];
+      }
+
+      return newPair;
+    });
+  }, []);
   return (
     <GameContext.Provider value={{ cardData, foundCards, errors, tryMatch }}>
       {children}

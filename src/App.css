@@ -1,5 +1,4 @@
 #root {
-  max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -43,6 +42,7 @@
   position: relative;
   perspective: 1000px;
   cursor: pointer;
+  margin: 0.5rem;
 }
 
 .card-front,
@@ -85,4 +85,10 @@
   padding: 0.5rem;
   border: 2px solid rgb(149, 65, 175);
   border-radius: 5px;
+}
+
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  padding: 20px;
 }

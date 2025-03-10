@@ -1,20 +1,19 @@
-import { useContext } from "react";
+import React from "react";
 import { GameContext } from "../hooks/UseGameContext";
 
-export default function Card({ cardData, index }) {
-  const { tryMatch } = useContext(GameContext);
+const Card = React.memo(({ cardImg, reveal, matched, index, tryMatch }) => {
   function handleClick() {
     tryMatch(index);
   }
+  console.log("MyComponent re-rendered!" + index);
   return (
-    <div
-      className={`card ${cardData.reveal ? "flipped" : ""}`}
-      onClick={handleClick}
-    >
+    <div className={`card ${reveal ? "flipped" : ""}`} onClick={handleClick}>
       <div className="card-front">
-        <img src={cardData.imgRef} alt="card" />
+        <img src={cardImg} alt="card" />
       </div>
       <div className="card-back">?</div>
     </div>
   );
-}
+});
+
+export default Card;
