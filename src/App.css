@@ -5,24 +5,20 @@
   width: 100%;
 }
 
-.read-the-docs {
-  color: #888;
-}
-
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8); /* Darken background */
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 999;
 }
 
-.overlay-content {
+.overlay__content {
   background: #fff;
   padding: 2rem;
   border-radius: 12px;
@@ -36,9 +32,10 @@ input,
 button {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
-  width: 100%;
+  width: 80%;
   cursor: pointer;
 }
+
 .card {
   height: 9rem;
   width: 6rem;
@@ -49,8 +46,8 @@ button {
   margin: 0.5rem;
 }
 
-.card-front,
-.card-back {
+.card__front,
+.card__back {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -61,11 +58,11 @@ button {
   overflow: hidden;
 }
 
-.card-front {
+.card__front {
   transform: rotateY(180deg);
 }
 
-.card-back {
+.card__back {
   font-size: 4rem;
   background-color: #f39f9f;
   justify-content: center;
@@ -73,11 +70,11 @@ button {
   display: flex;
 }
 
-.card.flipped .card-front {
+.card--flipped .card__front {
   transform: rotateY(0deg);
 }
 
-.card.flipped .card-back {
+.card--flipped .card__back {
   transform: rotateY(180deg);
 }
 
@@ -87,19 +84,20 @@ button {
   object-fit: cover;
 }
 
-.game-board-container {
+.game-board__container {
   display: flex;
-  justify-items: center;
+  justify-content: center;
   flex-direction: column;
 }
+
 .game-board {
   display: grid;
-  grid-template-columns: repeat(2, minmax(7rem, 1fr));
   gap: 1rem;
   justify-items: center;
   padding: 1rem;
   width: 100%;
 }
+
 @media (min-width: 600px) {
   .game-board {
     grid-template-columns: repeat(4, minmax(7rem, 1fr));

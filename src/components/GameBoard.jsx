@@ -6,7 +6,7 @@ import Score from "./Score";
 export default function GameBoard() {
   const { cardData, pair, tryMatch } = useContext(GameContext);
   return (
-    <div className="game-board-container">
+    <div className="game-board__container">
       <Score />
       <div className="game-board">
         {cardData.length &&

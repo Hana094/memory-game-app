@@ -8,11 +8,14 @@ const Card = React.memo(
       tryMatch(index);
     }
     return (
-      <div className={`card ${reveal ? "flipped" : ""}`} onClick={handleClick}>
-        <div className="card-front">
+      <div
+        className={`card ${reveal ? "card--flipped" : ""}`}
+        onClick={handleClick}
+      >
+        <div className="card__front">
           <img src={imgRef} alt="card" />
         </div>
-        <div className="card-back">?</div>
+        <div className="card__back">?</div>
       </div>
     );
   },

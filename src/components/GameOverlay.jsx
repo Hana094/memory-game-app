@@ -22,7 +22,7 @@ export default function GameOverlay() {
     <>
       {(!startGame || endGame) && (
         <div className="overlay">
-          <div className="overlay-content">
+          <div className="overlay__content">
             {endGame ? (
               <>
                 <h2>¡Felicidades, {playerName}! Completaste el juego !!!</h2>
