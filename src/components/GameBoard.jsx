@@ -4,25 +4,24 @@ import Card from "./Card";
 import Score from "./Score";
 
 export default function GameBoard() {
-  const { cardData, tryMatch } = useContext(GameContext);
+  const { cardData, pair, tryMatch } = useContext(GameContext);
   return (
-    <>
+    <div className="game-board-container">
       <Score />
       <div className="game-board">
-        {cardData.length > 0 &&
+        {cardData.length &&
           cardData.map((card, index) => {
             return (
               <Card
-                cardImg={card.imgRef}
-                reveal={card.reveal}
-                matched={card.matched}
+                cardData={card}
                 key={card.uuid + index}
                 index={index}
                 tryMatch={tryMatch}
+                pair={pair}
               />
             );
           })}
       </div>
-    </>
+    </div>
   );
 }

@@ -6,8 +6,18 @@ export const GameContext = createContext(null);
 export default function UseGameContext({ children }) {
   const [cardData, setCardData] = useState([]);
   const [pair, setPair] = useState([]);
-  const [foundCards, setFoundCards] = useState([]);
+  const [foundCards, setFoundCards] = useState(0);
   const [errors, setErrors] = useState(0);
+  function reStart() {
+    setPair([]);
+    setFoundCards(0);
+    setErrors(0);
+    shuffleDeck(
+      cardData.map((card) => {
+        return { ...card, reveal: false, matched: false };
+      })
+    );
+  }
 
   function shuffleDeck(deck) {
     for (let i = deck.length - 1; i > -1; i--) {
@@ -15,7 +25,6 @@ export default function UseGameContext({ children }) {
 
       [deck[i], deck[random]] = [deck[random], deck[i]];
     }
-
     setCardData(deck);
   }
   useEffect(() => {
@@ -36,7 +45,6 @@ export default function UseGameContext({ children }) {
             matched: false,
           };
         });
-        console.log(cards);
 
         const fullDeck = cards.flatMap((card) => {
           return [card, { ...card, uuid: card.uuid + "copy" }];
@@ -68,6 +76,9 @@ export default function UseGameContext({ children }) {
           const secondCard = prevCardData[secondIndex];
 
           if (firstCard.name === secondCard.name) {
+            setFoundCards((prevFoundCards) => {
+              return (prevFoundCards || 0) + 1;
+            });
             return prevCardData.map((card, index) => {
               if (index === firstIndex || index === secondIndex) {
                 return { ...card, matched: true };
@@ -75,6 +86,9 @@ export default function UseGameContext({ children }) {
               return card;
             });
           } else {
+            setErrors((prevErrors) => {
+              return (prevErrors || 0) + 1;
+            });
             setTimeout(() => {
               setCardData((prev) =>
                 prev.map((card, index) => {
@@ -96,7 +110,9 @@ export default function UseGameContext({ children }) {
     });
   }, []);
   return (
-    <GameContext.Provider value={{ cardData, foundCards, errors, tryMatch }}>
+    <GameContext.Provider
+      value={{ cardData, foundCards, errors, pair, tryMatch, reStart }}
+    >
       {children}
     </GameContext.Provider>
   );

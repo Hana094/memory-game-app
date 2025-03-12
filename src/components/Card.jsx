@@ -1,19 +1,28 @@
 import React from "react";
-import { GameContext } from "../hooks/UseGameContext";
 
-const Card = React.memo(({ cardImg, reveal, matched, index, tryMatch }) => {
-  function handleClick() {
-    tryMatch(index);
-  }
-  console.log("MyComponent re-rendered!" + index);
-  return (
-    <div className={`card ${reveal ? "flipped" : ""}`} onClick={handleClick}>
-      <div className="card-front">
-        <img src={cardImg} alt="card" />
+const Card = React.memo(
+  ({ cardData, index, pair, tryMatch }) => {
+    const { imgRef, reveal, matched } = cardData;
+    function handleClick() {
+      if (matched || pair.includes(index) || pair.length === 2) return;
+      tryMatch(index);
+    }
+    return (
+      <div className={`card ${reveal ? "flipped" : ""}`} onClick={handleClick}>
+        <div className="card-front">
+          <img src={imgRef} alt="card" />
+        </div>
+        <div className="card-back">?</div>
       </div>
-      <div className="card-back">?</div>
-    </div>
-  );
-});
+    );
+  },
+  (prevProps, nextProps) => {
+    return (
+      prevProps.cardData.imgRef === nextProps.cardData.imgRef &&
+      prevProps.cardData.reveal === nextProps.cardData.reveal &&
+      prevProps.cardData.matched === nextProps.cardData.matched
+    );
+  }
+);
 
 export default Card;
