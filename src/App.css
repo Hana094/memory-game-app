@@ -96,6 +96,7 @@ button {
   justify-items: center;
   padding: 1rem;
   width: 100%;
+  grid-template-columns: repeat(2, minmax(7rem, 1fr));
 }
 
 @media (min-width: 600px) {
